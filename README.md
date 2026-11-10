@@ -41,6 +41,8 @@ El modo de consola se inicia con `python -m chess_vision.interfaz.asistente_auto
 - `recursos/` y `datos_locales/` guardan imágenes, plantillas, configuración y el motor descargado.
 - `docs/` y `tests/` contienen la documentación técnica y las pruebas.
 
+El [flujo de desarrollo con Superpowers](docs/superpowers/plans/2026-11-10-flujo-superpowers.md) registra cómo se definieron, implementaron y verificaron la revisión PGN y las buenas alternativas.
+
 ## Pruebas
 
 ```powershell
