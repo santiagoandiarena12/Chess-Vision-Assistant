@@ -1,8 +1,10 @@
 # Chess Vision Assistant
 
-Aplicación de escritorio para Windows que analiza posiciones con Stockfish, detecta tableros en pantalla y convierte errores de partidas guardadas en ejercicios.
+Aplicación de escritorio para Windows que detecta tableros en pantalla, analiza posiciones de ajedrez y convierte errores de partidas guardadas en ejercicios. Usa OpenCV para reconocer las piezas, `python-chess` para validar jugadas y Stockfish para calcular evaluaciones y variantes. El motor se ejecuta localmente.
 
-Desde la carpeta del proyecto, instalá las dependencias y prepará el motor y las imágenes del tablero.
+## Instalación
+
+Necesitás Windows x86-64 y Python con Tkinter para el selector de archivos PGN. Desde la carpeta del proyecto, ejecutá estos comandos en PowerShell.
 
 ```powershell
 python -m pip install pygame-ce python-chess opencv-python mss numpy
@@ -13,11 +15,22 @@ python .\interfaz_visual.py
 
 La instalación de Stockfish guarda el motor y sus avisos en la carpeta local `stockfish/`.
 
-En **Abrir PGN**, elegí un archivo con una partida y seleccioná tu bando. La app muestra hasta tres errores con sus variantes. En **Practicar**, dibujá tu intento arrastrando con el botón derecho desde la pieza hasta la casilla de destino.
+## Revisar y practicar una partida
+
+1. En el menú inicial, elegí **Abrir PGN** o pulsá **Ctrl + O**. Si el archivo contiene varias partidas, la app carga la primera.
+2. Seleccioná **Blancas** o **Negras**. Stockfish compara tus jugadas con sus recomendaciones y muestra hasta tres caídas de evaluación de al menos medio peón, ordenadas por gravedad.
+3. Elegí un error con los botones numerados. En el paso 0, la flecha naranja muestra tu jugada original y la verde indica la recomendación. Recorré la variante con **Anterior**, **Siguiente**, las flechas del teclado o la rueda del ratón.
+4. Pulsá **Practicar** y dibujá tu intento con el botón derecho, desde la pieza hasta la casilla de destino. La app acepta alternativas con una evaluación similar y permite recorrer la continuación de la jugada elegida. También podés pulsar **Ver solución**.
+
+Si jugaste en Chess.com, podés descargar el PGN de una partida terminada desde **Análisis → Compartir → PGN → Descargar**. [Guía de Chess.com](https://support.chess.com/en/articles/8705305-how-do-i-get-a-pgn-of-my-game)
+
+## Capturar un tablero en pantalla
 
 Para preparar la captura visual, dejá visible un tablero en posición inicial, con las blancas abajo, y ejecutá `python .\aprender_piezas.py`. Si la detección automática no encuentra el tablero, ejecutá primero `python .\calibrar_tablero.py` y seleccioná el área del tablero.
 
-Para ejecutar las pruebas:
+Abrí la interfaz y elegí el bando que corresponde a la orientación del tablero. La app replica la posición detectada, muestra la evaluación y dibuja la jugada recomendada cuando le toca mover a ese bando.
+
+## Pruebas
 
 ```powershell
 python -B -m unittest discover -s tests -v
