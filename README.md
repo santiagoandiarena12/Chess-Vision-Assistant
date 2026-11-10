@@ -11,6 +11,8 @@ python .\descargar_piezas_hd.py
 python .\interfaz_visual.py
 ```
 
+La instalación de Stockfish guarda el motor y sus avisos en la carpeta local `stockfish/`.
+
 En **Abrir PGN**, elegí un archivo con una partida y seleccioná tu bando. La app muestra hasta tres errores con sus variantes. En **Practicar**, dibujá tu intento arrastrando con el botón derecho desde la pieza hasta la casilla de destino.
 
 Para preparar la captura visual, dejá visible un tablero en posición inicial, con las blancas abajo, y ejecutá `python .\aprender_piezas.py`. Si la detección automática no encuentra el tablero, ejecutá primero `python .\calibrar_tablero.py` y seleccioná el área del tablero.
