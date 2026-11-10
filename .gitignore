@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+/stockfish/
+/stockfish_path.txt
+/coordenadas.json
+/piezas/
+/piezas_hd/
+
+/calibracion_resultado.png
+/captura_*.png
+/test_*.png
