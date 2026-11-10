@@ -3,7 +3,7 @@ import time
 import winsound
 import chess
 import chess.engine
-from asistente import AsistenteAjedrez
+from chess_vision.asistente import AsistenteAjedrez
 
 def reproducir_aviso():
     """Emite un pequeño pitido agradable cuando es tu turno."""

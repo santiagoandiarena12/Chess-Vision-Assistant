@@ -11,14 +11,14 @@ import chess
 import chess.engine
 import cv2
 import numpy as np
-from asistente import AsistenteAjedrez, obtener_ruta_stockfish
-from evaluador_simulacion import EvaluadorSimulacion, SimulacionResultado
-from mentor_ajedrez import explicar_jugada
-from monitor_raton_ajedrez import MonitorRatonAjedrez
-from revision_pgn import SesionRevision, cargar_partida, evaluar_alternativa, preparar_alternativas, revisar_partida
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PIEZAS_DIR = os.path.join(BASE_DIR, "piezas_hd")
+from chess_vision.analisis.evaluador_simulacion import EvaluadorSimulacion, SimulacionResultado
+from chess_vision.analisis.mentor_ajedrez import explicar_jugada
+from chess_vision.analisis.revision_pgn import (
+    SesionRevision, cargar_partida, evaluar_alternativa, preparar_alternativas, revisar_partida,
+)
+from chess_vision.asistente import AsistenteAjedrez, obtener_ruta_stockfish
+from chess_vision.captura.monitor_raton_ajedrez import MonitorRatonAjedrez
+from chess_vision.rutas import PIEZAS_HD, ruta_local
 
 COLOR_BG = (28, 30, 36)
 COLOR_PANEL = (38, 41, 49)
@@ -190,8 +190,9 @@ class VisualChessApp:
 
     def _load_raw_pieces(self):
         raw = {}
+        piezas_dir = ruta_local(PIEZAS_HD)
         for p in ["wK", "wQ", "wR", "wB", "wN", "wP", "bK", "bQ", "bR", "bB", "bN", "bP"]:
-            path = os.path.join(PIEZAS_DIR, f"{p}.png")
+            path = os.path.join(piezas_dir, f"{p}.png")
             if os.path.exists(path):
                 raw[p] = pygame.image.load(path).convert_alpha()
         return raw
@@ -1649,10 +1650,14 @@ class VisualChessApp:
         pygame.quit()
         sys.exit()
 
-if __name__ == "__main__":
+def main():
     print("=" * 60)
     print("        CHESS VISION ASSISTANT (EN VIVO)")
     print("=" * 60)
     print("Abriendo ventana gráfica... Elige tu bando en el panel lateral.")
     app = VisualChessApp()
     app.run()
+
+
+if __name__ == "__main__":
+    main()

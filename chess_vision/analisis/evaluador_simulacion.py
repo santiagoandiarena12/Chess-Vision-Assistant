@@ -1,6 +1,6 @@
 import chess
 import chess.engine
-from mentor_ajedrez import explicar_jugada
+from chess_vision.analisis.mentor_ajedrez import explicar_jugada
 
 PIEZA_NOMBRES = {
     chess.PAWN: "el peón",

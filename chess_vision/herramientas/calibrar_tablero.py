@@ -1,11 +1,9 @@
-import os
 import json
 import time
 import cv2
 import mss
 import numpy as np
-
-CONFIG_FILE = "coordenadas.json"
+from chess_vision.rutas import COORDENADAS, DATOS_LOCALES
 
 def calibrar():
     print("=" * 60)
@@ -50,10 +48,11 @@ def calibrar():
         "height": int(h)
     }
 
-    with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+    DATOS_LOCALES.mkdir(parents=True, exist_ok=True)
+    with COORDENADAS.open("w", encoding="utf-8") as f:
         json.dump(coordenadas, f, indent=4)
 
-    print(f"\n[OK] ¡Coordenadas guardadas en {CONFIG_FILE}!")
+    print(f"\n[OK] ¡Coordenadas guardadas en {COORDENADAS}!")
     print(f"     X: {coordenadas['left']}, Y: {coordenadas['top']}, Ancho: {w}, Alto: {h}")
 
     # Verificación
@@ -64,8 +63,9 @@ def calibrar():
         for c in range(8):
             cv2.rectangle(tablero, (int(c*sq_w), int(r*sq_h)), (int((c+1)*sq_w), int((r+1)*sq_h)), (0, 255, 0), 1)
 
-    cv2.imwrite("calibracion_resultado.png", tablero)
-    print("[OK] Verificación guardada en 'calibracion_resultado.png'.")
+    verificacion = DATOS_LOCALES / "calibracion_resultado.png"
+    cv2.imwrite(str(verificacion), tablero)
+    print(f"[OK] Verificación guardada en '{verificacion}'.")
 
 if __name__ == "__main__":
     calibrar()

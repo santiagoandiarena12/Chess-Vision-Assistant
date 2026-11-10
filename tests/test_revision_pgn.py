@@ -8,7 +8,7 @@ import chess
 import chess.engine
 import chess.pgn
 
-import revision_pgn
+from chess_vision.analisis import revision_pgn
 
 
 PGN = '1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0'

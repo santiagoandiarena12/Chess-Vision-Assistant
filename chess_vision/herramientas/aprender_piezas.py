@@ -3,9 +3,10 @@ import json
 import time
 import cv2
 import numpy as np
-from tablero import TableroDetector
+from chess_vision.captura.tablero import TableroDetector
+from chess_vision.rutas import DATOS_LOCALES, PLANTILLAS_PIEZAS
 
-CARPETA_PIEZAS = "piezas"
+CARPETA_PIEZAS = PLANTILLAS_PIEZAS
 
 def sintetizar_pieza(pieza_src, fondo_src, fondo_dst, salida):
     src = cv2.imread(os.path.join(CARPETA_PIEZAS, pieza_src))
@@ -100,7 +101,8 @@ def capturar_y_guardar_piezas(orientacion_blancas=True):
     sintetizar_pieza("blanca_pieza_Q_clara.png", "vacia_pieza_empty_clara.png", "vacia_pieza_empty_oscura.png", "blanca_pieza_Q_oscura.png")
     sintetizar_pieza("negra_pieza_q_oscura.png", "vacia_pieza_empty_oscura.png", "vacia_pieza_empty_clara.png", "negra_pieza_q_clara.png")
 
-    cv2.imwrite("captura_piezas_verificacion.png", tablero_img)
+    DATOS_LOCALES.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(DATOS_LOCALES / "captura_piezas_verificacion.png"), tablero_img)
     total = len(os.listdir(CARPETA_PIEZAS))
     print(f"\n[OK] ¡Total de plantillas completas listas: {total}!")
 

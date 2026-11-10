@@ -8,12 +8,12 @@ Necesitás Windows x86-64 y Python con Tkinter para el selector de archivos PGN.
 
 ```powershell
 python -m pip install pygame-ce python-chess opencv-python mss numpy
-python .\descargar_stockfish.py
-python .\descargar_piezas_hd.py
-python .\interfaz_visual.py
+python -m chess_vision.herramientas.descargar_stockfish
+python -m chess_vision.herramientas.descargar_piezas_hd
+python -m chess_vision
 ```
 
-La instalación de Stockfish guarda el motor y sus avisos en la carpeta local `stockfish/`.
+La instalación guarda Stockfish y sus avisos en `datos_locales/stockfish/` y las imágenes en `recursos/piezas_hd/`.
 
 ## Revisar y practicar una partida
 
@@ -26,9 +26,20 @@ Si jugaste en Chess.com, podés descargar el PGN de una partida terminada desde 
 
 ## Capturar un tablero en pantalla
 
-Para preparar la captura visual, dejá visible un tablero en posición inicial, con las blancas abajo, y ejecutá `python .\aprender_piezas.py`. Si la detección automática no encuentra el tablero, ejecutá primero `python .\calibrar_tablero.py` y seleccioná el área del tablero.
+Para preparar la captura visual, dejá visible un tablero en posición inicial, con las blancas abajo, y ejecutá `python -m chess_vision.herramientas.aprender_piezas`. Si la detección automática no encuentra el tablero, ejecutá primero `python -m chess_vision.herramientas.calibrar_tablero` y seleccioná el área del tablero.
 
 Abrí la interfaz y elegí el bando que corresponde a la orientación del tablero. La app replica la posición detectada, muestra la evaluación y dibuja la jugada recomendada cuando le toca mover a ese bando.
+
+El modo de consola se inicia con `python -m chess_vision.interfaz.asistente_automatico`.
+
+## Estructura del proyecto
+
+- `chess_vision/interfaz/` contiene la interfaz gráfica y el modo de consola.
+- `chess_vision/analisis/` contiene la revisión de PGN, el evaluador y el mentor.
+- `chess_vision/captura/` contiene la detección del tablero y el seguimiento del ratón.
+- `chess_vision/herramientas/` contiene los instaladores y las herramientas de calibración.
+- `recursos/` y `datos_locales/` guardan imágenes, plantillas, configuración y el motor descargado.
+- `docs/` y `tests/` contienen la documentación técnica y las pruebas.
 
 ## Pruebas
 

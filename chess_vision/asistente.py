@@ -6,21 +6,20 @@ import cv2
 import numpy as np
 import chess
 import chess.engine
-from tablero import TableroDetector
-from mentor_ajedrez import explicar_jugada
+from chess_vision.analisis.mentor_ajedrez import explicar_jugada
+from chess_vision.captura.tablero import TableroDetector
+from chess_vision.rutas import PLANTILLAS_PIEZAS, RAIZ_PROYECTO, STOCKFISH_CONFIG, ruta_local
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CARPETA_PIEZAS = os.path.join(BASE_DIR, "piezas")
-STOCKFISH_CONFIG = os.path.join(BASE_DIR, "stockfish_path.txt")
 CANON_SIZE = 64
 
 
 def obtener_ruta_stockfish():
-    if not os.path.exists(STOCKFISH_CONFIG):
-        raise FileNotFoundError("No se encontró stockfish_path.txt. Ejecuta primero 'python descargar_stockfish.py'.")
-    with open(STOCKFISH_CONFIG, "r", encoding="utf-8") as f:
+    config = ruta_local(STOCKFISH_CONFIG)
+    if not config.is_file():
+        raise FileNotFoundError("No se encontró stockfish_path.txt. Ejecuta primero 'python -m chess_vision.herramientas.descargar_stockfish'.")
+    with config.open(encoding="utf-8") as f:
         ruta = f.read().strip()
-    return os.path.normpath(os.path.join(BASE_DIR, ruta)) if ruta else ruta
+    return os.path.normpath(os.path.join(RAIZ_PROYECTO, ruta)) if ruta else ruta
 
 
 class AnalisisResultado:
@@ -97,10 +96,11 @@ class AsistenteAjedrez:
                 pass
 
     def _cargar_plantillas(self):
-        archivos = sorted(glob.glob(os.path.join(CARPETA_PIEZAS, "*.png")))
+        carpeta_piezas = ruta_local(PLANTILLAS_PIEZAS)
+        archivos = sorted(glob.glob(os.path.join(carpeta_piezas, "*.png")))
         if not archivos:
             raise FileNotFoundError(
-                f"No hay piezas en '{CARPETA_PIEZAS}/'. Ejecuta primero 'python aprender_piezas.py' con el tablero en posición inicial."
+                f"No hay piezas en '{carpeta_piezas}'. Ejecuta 'python -m chess_vision.herramientas.aprender_piezas' con el tablero en posición inicial."
             )
 
         # Usar las plantillas capturadas directamente del tablero (sin necesidad de duplicar clara/oscura
@@ -114,7 +114,7 @@ class AsistenteAjedrez:
 
         rutas_a_cargar = []
         for fn in preferidas:
-            p = os.path.join(CARPETA_PIEZAS, fn)
+            p = os.path.join(carpeta_piezas, fn)
             if os.path.exists(p):
                 rutas_a_cargar.append(p)
 

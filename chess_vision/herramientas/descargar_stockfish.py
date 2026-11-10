@@ -4,12 +4,12 @@ import zipfile
 import io
 import urllib.request
 from pathlib import PurePosixPath
+from chess_vision.rutas import DATOS_LOCALES, RAIZ_PROYECTO, STOCKFISH_CONFIG
 
 AVISOS_STOCKFISH = {"authors", "citation.cff", "copying.txt", "readme.md", "top cpu contributors.txt"}
 
 def descargar():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    stockfish_dir = os.path.join(base_dir, "stockfish")
+    stockfish_dir = DATOS_LOCALES / "stockfish"
     os.makedirs(stockfish_dir, exist_ok=True)
 
     print("Conectando con el repositorio oficial de Stockfish...")
@@ -55,8 +55,8 @@ def descargar():
         exe_encontrado = paquete.extract(ejecutable.as_posix(), stockfish_dir)
 
     print(f"[OK] Stockfish instalado con éxito en:\n     {exe_encontrado}")
-    with open(os.path.join(base_dir, "stockfish_path.txt"), "w", encoding="utf-8") as f:
-        f.write(os.path.relpath(exe_encontrado, base_dir))
+    with STOCKFISH_CONFIG.open("w", encoding="utf-8") as f:
+        f.write(os.path.relpath(exe_encontrado, RAIZ_PROYECTO))
     return exe_encontrado
 
 if __name__ == "__main__":

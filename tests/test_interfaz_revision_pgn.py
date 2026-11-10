@@ -7,8 +7,8 @@ import chess
 import chess.pgn
 import pygame
 
-from interfaz_visual import VisualChessApp
-from revision_pgn import ErrorRevision, SesionRevision
+from chess_vision.analisis.revision_pgn import ErrorRevision, SesionRevision
+from chess_vision.interfaz.interfaz_visual import VisualChessApp
 
 
 class InterfazRevisionPGNTest(unittest.TestCase):

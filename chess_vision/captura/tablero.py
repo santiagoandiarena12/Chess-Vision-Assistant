@@ -1,16 +1,17 @@
-import os
 import json
 import time
+from pathlib import Path
+
 import cv2
 import mss
 import numpy as np
-from detector_tablero import DetectorTablero
 
-CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "coordenadas.json")
+from chess_vision.captura.detector_tablero import DetectorTablero
+from chess_vision.rutas import COORDENADAS, ruta_local
 
 class TableroDetector:
-    def __init__(self, config_path=CONFIG_FILE):
-        self.config_path = config_path
+    def __init__(self, config_path=COORDENADAS):
+        self.config_path = Path(config_path)
         self.detector_auto = DetectorTablero()
         self.estado_tracker = "BUSCANDO"
         self.ultimo_escaneo = 0.0
@@ -18,9 +19,10 @@ class TableroDetector:
         self.sct = mss.mss()
 
     def _cargar_coordenadas(self):
-        if os.path.exists(self.config_path):
+        config = ruta_local(COORDENADAS) if self.config_path == COORDENADAS else self.config_path
+        if config.is_file():
             try:
-                with open(self.config_path, "r", encoding="utf-8") as f:
+                with config.open(encoding="utf-8") as f:
                     data = json.load(f)
                     if all(k in data for k in ("top", "left", "width", "height")):
                         return data
@@ -31,6 +33,7 @@ class TableroDetector:
     def _guardar_coordenadas(self, coords):
         self.coordenadas = coords
         try:
+            self.config_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.config_path, "w", encoding="utf-8") as f:
                 json.dump(coords, f, indent=4)
         except Exception:

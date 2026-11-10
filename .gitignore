@@ -3,6 +3,11 @@ __pycache__/
 .venv/
 .pytest_cache/
 
+/datos_locales/
+/recursos/piezas/
+/recursos/piezas_hd/
+
+# Rutas de instalaciones anteriores
 /stockfish/
 /stockfish_path.txt
 /coordenadas.json
